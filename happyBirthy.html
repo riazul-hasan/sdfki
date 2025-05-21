@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday Friend</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: radial-gradient(circle at top, #ffdde1, #fbbebe, #f78ca0);
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        #fireworksCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .pataka {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100px;
+            background: transparent;
+            display: flex;
+            justify-content: space-around;
+            z-index: 5;
+        }
+
+        .pataka div {
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-bottom: 40px solid;
+            margin-top: 10px;
+            animation: swing 3s infinite ease-in-out;
+        }
+
+        @keyframes swing {
+
+            0%,
+            100% {
+                transform: rotate(0deg);
+            }
+
+            50% {
+                transform: rotate(5deg);
+            }
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            z-index: 2;
+            position: relative;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2.5rem;
+            border-radius: 25px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            animation: fadeInUp 2s ease-in-out;
+            z-index: 3;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #ff6b81;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            font-size: 1.2rem;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .bangla {
+            font-family: 'Noto Sans Bengali', sans-serif;
+            font-size: 1.3rem;
+            margin-top: 1.5rem;
+            color: #444;
+        }
+
+        .special-message {
+            margin-top: 1.5rem;
+            display: none;
+            background: #fff0f5;
+            padding: 1rem;
+            border-radius: 15px;
+            animation: fadeIn 1.5s ease;
+            border: 2px dashed #ff69b4;
+        }
+
+        .reveal-btn {
+            margin-top: 1rem;
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #ff6b81;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .reveal-btn:hover {
+            background-color: #ff3e61;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .balloon {
+            position: absolute;
+            bottom: -150px;
+            animation: floatUp 10s infinite ease-in;
+            opacity: 0.8;
+            z-index: 1;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <canvas id="fireworksCanvas"></canvas>
+
+    <!-- Pataka -->
+    <div class="pataka">
+        <div style="border-bottom-color:#ff6b81;"></div>
+        <div style="border-bottom-color:#48dbfb;"></div>
+        <div style="border-bottom-color:#feca57;"></div>
+        <div style="border-bottom-color:#1dd1a1;"></div>
+        <div style="border-bottom-color:#ff9ff3;"></div>
+        <div style="border-bottom-color:#5f27cd;"></div>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <h1>🎉 Happy Birthday, My Friend Nafiz! 🎂</h1>
+
+            <p class="bangla">
+                🎁 জন্মদিনের অনেক অনেক শুভেচ্ছা!<br />
+                তুমি যেন জীবনে সব সময় আলোর পথেই চলতে পারো।<br />
+                আল্লাহ যেন তোমার সব দোয়া কবুল করেন। ✨<br />
+                ভালোবাসা ও দোয়া রইলো আজীবন।
+            </p>
+
+            <button class="reveal-btn" onclick="showMessage()">💌 Click Me for Special Message</button>
+            <div class="special-message" id="specialMsg">
+                ভালো হয়ে যা বন্ধু, আর পট খাওয়া ছেড়ে দে 🙂🙂<br /> Always stay blessed and happy! 🥳
+            </div>
+        </div>
+    </div>
+
+    <!-- Play/Pause Button -->
+    <div style="position: absolute; bottom: 20px; right: 20px; z-index: 10;">
+        <button onclick="toggleMusic()"
+            style="padding: 10px 15px; background: #ff6b81; color: white; border: none; border-radius: 10px; cursor: pointer;">
+            🔊 Play/Pause Music
+        </button>
+    </div>
+
+
+
+    <script>
+        // Show special message
+        function showMessage() {
+            const msg = document.getElementById("specialMsg");
+            msg.style.display = "block";
+        }
+
+        // Toggle music
+        const music = document.getElementById("birthdayMusic");
+        function toggleMusic() {
+            if (music.paused) {
+                music.play();
+            } else {
+                music.pause();
+            }
+        }
+
+        // Floating balloons
+        function createBalloon() {
+            const balloon = document.createElement("div");
+            balloon.classList.add("balloon");
+            const size = Math.random() * 40 + 20;
+            const colors = ["#ff6b81", "#feca57", "#48dbfb", "#1dd1a1", "#5f27cd"];
+            balloon.style.width = `${size}px`;
+            balloon.style.height = `${size * 1.2}px`;
+            balloon.style.left = `${Math.random() * 100}%`;
+            balloon.style.background = colors[Math.floor(Math.random() * colors.length)];
+            balloon.style.borderRadius = "50%";
+            balloon.style.position = "absolute";
+            balloon.style.animationDuration = `${8 + Math.random() * 4}s`;
+            document.body.appendChild(balloon);
+            setTimeout(() => balloon.remove(), 12000);
+        }
+        setInterval(createBalloon, 400);
+
+        // Fireworks background
+        const canvas = document.getElementById('fireworksCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        const particles = [];
+
+        class Particle {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.radius = Math.random() * 2 + 1;
+                this.color = color;
+                this.speedX = (Math.random() - 0.5) * 6;
+                this.speedY = (Math.random() - 0.5) * 6;
+                this.alpha = 1;
+                this.decay = Math.random() * 0.01 + 0.01;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.alpha -= this.decay;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        function createFirework(x, y) {
+            const colors = ['#ff6b81', '#48dbfb', '#feca57', '#5f27cd', '#1dd1a1'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            for (let i = 0; i < 50; i++) {
+                particles.push(new Particle(x, y, color));
+            }
+        }
+
+        function animateFireworks() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.update();
+                p.draw();
+                if (p.alpha <= 0) {
+                    particles.splice(i, 1);
+                }
+            }
+            requestAnimationFrame(animateFireworks);
+        }
+
+        setInterval(() => {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * canvas.height / 2;
+            createFirework(x, y);
+        }, 1500);
+
+        animateFireworks();
+    </script>
+
+</body>
+
+</html>
